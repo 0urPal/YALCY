@@ -233,6 +233,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         InitializeUsbCollections();
         //InitializeStageKitCollections();
         InitializeDmxCollections();
+        WatchDmxAddresses();
         //InitializeRb3eCollections();
         InitializeHueCollections();
         InitializeLifxCollections();

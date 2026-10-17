@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -47,7 +49,19 @@ public class DmxSettingEntry : ReactiveObject
             if (_channels[_index] == value) return;
             _channels[_index] = value;
             this.RaisePropertyChanged();
+            this.RaisePropertyChanged(nameof(IsOff));
         }
+    }
+
+    // For the DMX tab's text colour: 0 is shown blue, a shared address red
+    public bool IsOff => Value == 0;
+
+    private bool _isConflict;
+
+    public bool IsConflict
+    {
+        get => _isConflict;
+        set => this.RaiseAndSetIfChanged(ref _isConflict, value);
     }
 
     public static DmxSettingEntry[] For(int[]? channels) =>
@@ -72,7 +86,22 @@ public class DmxSingleSetting : ReactiveObject
     public int Value
     {
         get => _value;
-        set => this.RaiseAndSetIfChanged(ref _value, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _value, value);
+            this.RaisePropertyChanged(nameof(IsOff));
+        }
+    }
+
+    // For the DMX tab's text colour: 0 is shown blue, a shared address red
+    public bool IsOff => Value == 0;
+
+    private bool _isConflict;
+
+    public bool IsConflict
+    {
+        get => _isConflict;
+        set => this.RaiseAndSetIfChanged(ref _isConflict, value);
     }
 
     public DmxSingleSetting(string label, int value)
@@ -347,6 +376,70 @@ public partial class MainWindowViewModel
         this.RaisePropertyChanged(nameof(AdvancedSettingsContainer));
         this.RaisePropertyChanged(nameof(BroadcastSettingsContainer));
         SettingsManager.SaveSettings(this);
+    }
+
+    // Address boxes on the DMX tab. Master dimmer values are levels and the broadcast universe
+    // isn't an address, so neither can conflict.
+    private IEnumerable<IDmxChannelSetting> DmxAddressGroups =>
+        [MasterDimmerSettings, RedChannels, BlueChannels, YellowChannels, GreenChannels, FogChannels, StrobeChannels];
+
+    private IEnumerable<DmxSingleSetting> DmxAddressSettings =>
+        InstrumentNoteSettingsContainer.Concat(AdvancedSettingsContainer);
+
+    // Keep the conflict highlight current as addresses change. Groups replace their entries on
+    // load and Reset, so watch for that too.
+    private void WatchDmxAddresses()
+    {
+        foreach (var setting in DmxAddressSettings)
+            setting.PropertyChanged += OnDmxAddressChanged;
+
+        foreach (var group in DmxAddressGroups)
+        {
+            if (group is INotifyPropertyChanged notifier)
+                notifier.PropertyChanged += OnDmxAddressGroupChanged;
+            WatchEntries(group);
+        }
+
+        UpdateDmxAddressConflicts();
+    }
+
+    private void WatchEntries(IDmxChannelSetting group)
+    {
+        foreach (var entry in group.Entries)
+            entry.PropertyChanged += OnDmxAddressChanged;
+    }
+
+    private void OnDmxAddressGroupChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(IDmxChannelSetting.Entries) || sender is not IDmxChannelSetting group) return;
+
+        WatchEntries(group);
+        UpdateDmxAddressConflicts();
+    }
+
+    private void OnDmxAddressChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(DmxSettingEntry.Value))
+            UpdateDmxAddressConflicts();
+    }
+
+    // Mark every address box whose address is used by another address box
+    private void UpdateDmxAddressConflicts()
+    {
+        var entries = DmxAddressGroups.SelectMany(group => group.Entries).ToList();
+        var settings = DmxAddressSettings.ToList();
+
+        var uses = new Dictionary<int, int>();
+        foreach (var address in entries.Select(entry => entry.Value).Concat(settings.Select(setting => setting.Value)))
+        {
+            if (address > 0)
+                uses[address] = uses.GetValueOrDefault(address) + 1;
+        }
+
+        foreach (var entry in entries)
+            entry.IsConflict = entry.Value > 0 && uses[entry.Value] > 1;
+        foreach (var setting in settings)
+            setting.IsConflict = setting.Value > 0 && uses[setting.Value] > 1;
     }
 
     private void InitializeSacnAdapterOptions()
