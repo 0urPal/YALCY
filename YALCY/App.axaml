@@ -149,6 +149,7 @@
             <SolidColorBrush x:Key="AppAccentBadgeBorder" Color="#1A607A" />
             <SolidColorBrush x:Key="AppAccentBadgeForeground" Color="#45D8FE" />
             <viewModels:IntToBoolConverter x:Key="IntToBoolConverter" />
+            <viewModels:NumericBoxConverter x:Key="NumericBoxConverter" />
             <viewModels:BoolToHighlightBackgroundConverter x:Key="BoolToHighlightBackgroundConverter" />
             <viewModels:BoolToHighlightForegroundConverter x:Key="BoolToHighlightForegroundConverter" />
             <viewModels:BoolToHighlightStarBrushConverter x:Key="BoolToHighlightStarBrushConverter" />
