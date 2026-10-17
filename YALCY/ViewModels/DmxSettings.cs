@@ -186,38 +186,36 @@ public partial class MainWindowViewModel
     public ObservableCollection<DmxSingleSetting> BroadcastSettingsContainer { get; set; }
     public ObservableCollection<SacnAdapterOption> SacnAdapterOptions { get; private set; }
 
-    public DmxDimmerChannelSetting MasterDimmerSettings = new("Master Dimmer Channels", 1, 8, 15, 22, 29, 36, 43, 50, 57, 64, 71, 78, 85, 92, 99, 106);
+    public DmxDimmerChannelSetting MasterDimmerSettings = new("Master Dimmer Channels", DmxDefaults.MasterDimmerChannels());
+    public DmxDimmerValueSetting MasterDimmerValues = new("Master Dimmer Values", DmxDefaults.MasterDimmerValues());
 
-    public DmxDimmerValueSetting MasterDimmerValues =
-        new("Master Dimmer Values", 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255);
-
-    public DmxChannelSetting StrobeChannels = new("Strobe Channels", 7, 14, 21, 28, 35, 42, 49, 56);
-    public DmxChannelSetting FogChannels = new("Fog Channels", 6, 13, 20, 27, 34, 41, 48, 55);
-    public DmxChannelSetting RedChannels = new("Red Channels", 2, 9, 16, 23, 30, 37, 44, 51);
-    public DmxChannelSetting BlueChannels = new("Blue Channels", 3, 10, 17, 24, 31, 38, 45, 52);
-    public DmxChannelSetting YellowChannels = new("Yellow Channels", 4, 11, 18, 25, 32, 39, 46, 53);
-    public DmxChannelSetting GreenChannels = new("Green Channels", 5, 12, 19, 26, 33, 40, 47, 54);
-    public DmxSingleSetting BpmChannelSetting = new("BPM Channel", 56);
-    public DmxSingleSetting CueChangeChannelSetting = new("Cue Change Channel", 57);
-    public DmxSingleSetting PostProcessingChannelSetting = new("Post-Processing Channel", 62);
-    public DmxSingleSetting KeyFrameChannelSetting = new("KeyFrame Channel", 60);
-    public DmxSingleSetting BeatLineChannelSetting = new("BeatLine Channel", 58);
-    public DmxSingleSetting BonusEffectChannelSetting = new("Bonus Effect Channel", 59);
-    public DmxSingleSetting DrumNoteChannelSetting = new("Drum Note Channel", 61);
-    public DmxSingleSetting GuitarNoteChannelSetting = new("Guitar Note Channel", 63);
-    public DmxSingleSetting BassNoteChannelSetting = new("Bass Note Channel", 64);
-    public DmxSingleSetting CurrentSpotlightSetting = new("Current Spotlight", 65);
-    public DmxSingleSetting CurrentSingalongSetting = new("Current Singalong", 66);
-    public DmxSingleSetting KeysNoteChannelSetting = new("Keys Note Channel", 67);
-    public DmxSingleSetting VocalsNoteChannelSetting = new("Vocals Note Channel", 68);
-    public DmxSingleSetting Harmony0NoteChannelSetting = new("Harmony 0 Note Channel", 69);
-    public DmxSingleSetting Harmony1NoteChannelSetting = new("Harmony 1 Note Channel", 70);
-    public DmxSingleSetting Harmony2NoteChannelSetting = new("Harmony 2 Note Channel", 71);
-    public DmxSingleSetting BroadcastUniverseSetting = new("Broadcast Universe", 1);
-    public DmxSingleSetting CurrentSceneSetting = new("Current Scene", 72);
-    public DmxSingleSetting VenueSizeSetting = new("Venue Size", 73);
-    public DmxSingleSetting PauseStateSetting = new("Pause State", 74);
-    public DmxSingleSetting SongSectionSetting = new("Song Section", 75);
+    public DmxChannelSetting StrobeChannels = new("Strobe Channels", DmxDefaults.StrobeChannels());
+    public DmxChannelSetting FogChannels = new("Fog Channels", DmxDefaults.FogChannels());
+    public DmxChannelSetting RedChannels = new("Red Channels", DmxDefaults.RedChannels());
+    public DmxChannelSetting BlueChannels = new("Blue Channels", DmxDefaults.BlueChannels());
+    public DmxChannelSetting YellowChannels = new("Yellow Channels", DmxDefaults.YellowChannels());
+    public DmxChannelSetting GreenChannels = new("Green Channels", DmxDefaults.GreenChannels());
+    public DmxSingleSetting BpmChannelSetting = new("BPM Channel", DmxDefaults.BpmChannel);
+    public DmxSingleSetting CueChangeChannelSetting = new("Cue Change Channel", DmxDefaults.CueChangeChannel);
+    public DmxSingleSetting PostProcessingChannelSetting = new("Post-Processing Channel", DmxDefaults.PostProcessingChannel);
+    public DmxSingleSetting KeyFrameChannelSetting = new("KeyFrame Channel", DmxDefaults.KeyFrameChannel);
+    public DmxSingleSetting BeatLineChannelSetting = new("BeatLine Channel", DmxDefaults.BeatLineChannel);
+    public DmxSingleSetting BonusEffectChannelSetting = new("Bonus Effect Channel", DmxDefaults.BonusEffectChannel);
+    public DmxSingleSetting DrumNoteChannelSetting = new("Drum Note Channel", DmxDefaults.DrumNoteChannel);
+    public DmxSingleSetting GuitarNoteChannelSetting = new("Guitar Note Channel", DmxDefaults.GuitarNoteChannel);
+    public DmxSingleSetting BassNoteChannelSetting = new("Bass Note Channel", DmxDefaults.BassNoteChannel);
+    public DmxSingleSetting CurrentSpotlightSetting = new("Current Spotlight", DmxDefaults.CurrentSpotlightChannel);
+    public DmxSingleSetting CurrentSingalongSetting = new("Current Singalong", DmxDefaults.CurrentSingalongChannel);
+    public DmxSingleSetting KeysNoteChannelSetting = new("Keys Note Channel", DmxDefaults.KeysNoteChannel);
+    public DmxSingleSetting VocalsNoteChannelSetting = new("Vocals Note Channel", DmxDefaults.VocalsNoteChannel);
+    public DmxSingleSetting Harmony0NoteChannelSetting = new("Harmony 0 Note Channel", DmxDefaults.Harmony0NoteChannel);
+    public DmxSingleSetting Harmony1NoteChannelSetting = new("Harmony 1 Note Channel", DmxDefaults.Harmony1NoteChannel);
+    public DmxSingleSetting Harmony2NoteChannelSetting = new("Harmony 2 Note Channel", DmxDefaults.Harmony2NoteChannel);
+    public DmxSingleSetting BroadcastUniverseSetting = new("Broadcast Universe", DmxDefaults.BroadcastUniverse);
+    public DmxSingleSetting CurrentSceneSetting = new("Current Scene", DmxDefaults.CurrentSceneChannel);
+    public DmxSingleSetting VenueSizeSetting = new("Venue Size", DmxDefaults.VenueSizeChannel);
+    public DmxSingleSetting PauseStateSetting = new("Pause State", DmxDefaults.PauseStateChannel);
+    public DmxSingleSetting SongSectionSetting = new("Song Section", DmxDefaults.SongSectionChannel);
 
     private SacnAdapterOption? _selectedSacnAdapter;
     public SacnAdapterOption? SelectedSacnAdapter

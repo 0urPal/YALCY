@@ -78,9 +78,9 @@ internal static class SettingsManager
         LifxZoneAssignments = new List<LifxZoneAssignmentSetting>(),
         HomeAssistantAssignments = new List<HomeAssistantAssignmentSetting>(),
         CurrentMasterDimmerChannelSettings =
-            new DmxDimmerChannelSetting("Master Dimmer Channels", 1, 8, 15, 22, 29, 36, 43, 50, 57, 64, 71, 78, 85, 92, 99, 106),
+            new DmxDimmerChannelSetting("Master Dimmer Channels", DmxDefaults.MasterDimmerChannels()),
         CurrentMasterDimmerValueChannelSettings =
-            new DmxDimmerValueSetting("Master Dimmer Values", 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255),
+            new DmxDimmerValueSetting("Master Dimmer Values", DmxDefaults.MasterDimmerValues()),
         HueAuthResult = new RegisterEntertainmentResult(),
         HueBridgeIP = "",
         UdpListenPort = 0,
@@ -188,36 +188,36 @@ internal static class SettingsManager
 
     public static void ResetDmxChannelsToDefaults()
     {
-        BpmChannelSettingValue = 57;
-        CueChangeChannelSettingValue = 58;
-        BeatLineChannelSettingValue = 59;
-        BonusEffectChannelSettingValue = 60;
-        KeyFrameChannelSettingValue = 61;
-        DrumNoteChannelSettingValue = 62;
-        PostProcessingChannelSettingValue = 63;
-        GuitarNoteChannelSettingValue = 64;
-        BassNoteChannelSettingValue = 65;
-        CurrentSpotlightSettingValue = 66;
-        CurrentSingalongSettingValue = 67;
-        KeysNoteChannelSettingValue = 68;
-        VocalsNoteChannelSettingValue = 69;
-        Harmony0NoteChannelSettingValue = 70;
-        Harmony1NoteChannelSettingValue = 71;
-        Harmony2NoteChannelSettingValue = 72;
-        CurrentSceneSettingValue = 73;
-        VenueSizeSettingValue = 74;
-        PauseStateSettingValue = 75;
-        SongSectionSettingValue = 76;
-        BroadcastUniverseSettingValue = 1;
+        BpmChannelSettingValue = DmxDefaults.BpmChannel;
+        CueChangeChannelSettingValue = DmxDefaults.CueChangeChannel;
+        BeatLineChannelSettingValue = DmxDefaults.BeatLineChannel;
+        BonusEffectChannelSettingValue = DmxDefaults.BonusEffectChannel;
+        KeyFrameChannelSettingValue = DmxDefaults.KeyFrameChannel;
+        DrumNoteChannelSettingValue = DmxDefaults.DrumNoteChannel;
+        PostProcessingChannelSettingValue = DmxDefaults.PostProcessingChannel;
+        GuitarNoteChannelSettingValue = DmxDefaults.GuitarNoteChannel;
+        BassNoteChannelSettingValue = DmxDefaults.BassNoteChannel;
+        CurrentSpotlightSettingValue = DmxDefaults.CurrentSpotlightChannel;
+        CurrentSingalongSettingValue = DmxDefaults.CurrentSingalongChannel;
+        KeysNoteChannelSettingValue = DmxDefaults.KeysNoteChannel;
+        VocalsNoteChannelSettingValue = DmxDefaults.VocalsNoteChannel;
+        Harmony0NoteChannelSettingValue = DmxDefaults.Harmony0NoteChannel;
+        Harmony1NoteChannelSettingValue = DmxDefaults.Harmony1NoteChannel;
+        Harmony2NoteChannelSettingValue = DmxDefaults.Harmony2NoteChannel;
+        CurrentSceneSettingValue = DmxDefaults.CurrentSceneChannel;
+        VenueSizeSettingValue = DmxDefaults.VenueSizeChannel;
+        PauseStateSettingValue = DmxDefaults.PauseStateChannel;
+        SongSectionSettingValue = DmxDefaults.SongSectionChannel;
+        BroadcastUniverseSettingValue = DmxDefaults.BroadcastUniverse;
 
-        MasterDimmerSettingsChannel = new[] { 1, 8, 15, 22, 29, 36, 43, 50, 57, 64, 71, 78, 85, 92, 99, 106 };
-        MasterDimmerValuesChannel = new[] { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
-        FogChannelsChannel = new[] { 6, 13, 20, 27, 34, 41, 48, 55 };
-        StrobeChannelsChannel = new[] { 7, 14, 21, 28, 35, 42, 49, 56 };
-        RedChannelsChannel = new[] { 2, 9, 16, 23, 30, 37, 44, 51 };
-        BlueChannelsChannel = new[] { 3, 10, 17, 24, 31, 38, 45, 52 };
-        YellowChannelsChannel = new[] { 4, 11, 18, 25, 32, 39, 46, 53 };
-        GreenChannelsChannel = new[] { 5, 12, 19, 26, 33, 40, 47, 54 };
+        MasterDimmerSettingsChannel = DmxDefaults.MasterDimmerChannels();
+        MasterDimmerValuesChannel = DmxDefaults.MasterDimmerValues();
+        FogChannelsChannel = DmxDefaults.FogChannels();
+        StrobeChannelsChannel = DmxDefaults.StrobeChannels();
+        RedChannelsChannel = DmxDefaults.RedChannels();
+        BlueChannelsChannel = DmxDefaults.BlueChannels();
+        YellowChannelsChannel = DmxDefaults.YellowChannels();
+        GreenChannelsChannel = DmxDefaults.GreenChannels();
     }
 
     public static void SaveSettings(MainWindowViewModel mainViewModel)
@@ -584,10 +584,6 @@ internal static class SettingsManager
             HomeAssistantEnabledSettingIsEnabled = false;
 
             ResetDmxChannelsToDefaults();
-
-            BroadcastUniverseSettingValue = 1;
-
-            MasterDimmerValuesChannel = new[] { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
 
             HueAuthResultUsername = "";
             HueAuthResultStreamingClientKey = "";
