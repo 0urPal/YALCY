@@ -20,6 +20,40 @@ public interface IDmxChannelSetting
     // Input range for the DMX tab's boxes. Not saved, since only [DataMember] properties are serialized.
     decimal Minimum { get; }
     decimal Maximum { get; }
+
+    // What the DMX tab's boxes bind to, one per element of Channel. Not saved.
+    DmxSettingEntry[] Entries { get; }
+}
+
+// One element of a channel array, for binding. Array elements can't announce changes, so a TwoWay
+// binding to Channel[i] never sees its own writes and skips writing back the value it first loaded
+// (e.g. 2 -> 0 -> 2 left the setting at 0). A notifying entry keeps the binding in step.
+public class DmxSettingEntry : ReactiveObject
+{
+    private readonly int[] _channels;
+    private readonly int _index;
+
+    private DmxSettingEntry(int[] channels, int index)
+    {
+        _channels = channels;
+        _index = index;
+    }
+
+    public int Value
+    {
+        get => _channels[_index];
+        set
+        {
+            if (_channels[_index] == value) return;
+            _channels[_index] = value;
+            this.RaisePropertyChanged();
+        }
+    }
+
+    public static DmxSettingEntry[] For(int[]? channels) =>
+        channels == null
+            ? []
+            : Enumerable.Range(0, channels.Length).Select(i => new DmxSettingEntry(channels, i)).ToArray();
 }
 
 public class DmxSingleSetting : ReactiveObject
@@ -80,10 +114,12 @@ public class DmxChannelSetting : ReactiveObject, IDmxChannelSetting
         set
         {
             this.RaiseAndSetIfChanged(ref _channel, value);
-            this.RaisePropertyChanged("Item");
-            this.RaisePropertyChanged("Item[]");
+            Entries = DmxSettingEntry.For(value);
+            this.RaisePropertyChanged(nameof(Entries));
         }
     }
+
+    public DmxSettingEntry[] Entries { get; private set; } = [];
 
     // DMX addresses; 0 turns the channel off
     public decimal Minimum => 0;
@@ -117,8 +153,8 @@ public class DmxDimmerChannelSetting : ReactiveObject, IDmxChannelSetting
         set
         {
             this.RaiseAndSetIfChanged(ref _channel, value);
-            this.RaisePropertyChanged("Item");
-            this.RaisePropertyChanged("Item[]");
+            Entries = DmxSettingEntry.For(value);
+            this.RaisePropertyChanged(nameof(Entries));
             // DmxTalker zeroes the previous addresses on its next frame
             _dmxTalker?.UpdateMasterDimmers();
         }
@@ -128,6 +164,8 @@ public class DmxDimmerChannelSetting : ReactiveObject, IDmxChannelSetting
     {
         _dmxTalker = talker;
     }
+
+    public DmxSettingEntry[] Entries { get; private set; } = [];
 
     // DMX addresses; 0 turns the channel off
     public decimal Minimum => 0;
@@ -161,8 +199,8 @@ public class DmxDimmerValueSetting : ReactiveObject, IDmxChannelSetting
         set
         {
             this.RaiseAndSetIfChanged(ref _channel, value);
-            this.RaisePropertyChanged("Item");
-            this.RaisePropertyChanged("Item[]");
+            Entries = DmxSettingEntry.For(value);
+            this.RaisePropertyChanged(nameof(Entries));
             _dmxTalker?.UpdateMasterDimmers();
         }
     }
@@ -171,6 +209,8 @@ public class DmxDimmerValueSetting : ReactiveObject, IDmxChannelSetting
     {
         _dmxTalker = talker;
     }
+
+    public DmxSettingEntry[] Entries { get; private set; } = [];
 
     // DMX levels are 8-bit
     public decimal Minimum => 0;
