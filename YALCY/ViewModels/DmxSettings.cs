@@ -16,6 +16,10 @@ public interface IDmxChannelSetting
 {
     string Label { get; set; }
     int[]? Channel { get; set; }
+
+    // Input range for the DMX tab's boxes. Not saved, since only [DataMember] properties are serialized.
+    decimal Minimum { get; }
+    decimal Maximum { get; }
 }
 
 public class DmxSingleSetting : ReactiveObject
@@ -81,6 +85,10 @@ public class DmxChannelSetting : ReactiveObject, IDmxChannelSetting
         }
     }
 
+    // DMX addresses; 0 turns the channel off
+    public decimal Minimum => 0;
+    public decimal Maximum => 512;
+
     public DmxChannelSetting(string label, params int[]? channels)
     {
         Label = label;
@@ -121,6 +129,10 @@ public class DmxDimmerChannelSetting : ReactiveObject, IDmxChannelSetting
         _dmxTalker = talker;
     }
 
+    // DMX addresses; 0 turns the channel off
+    public decimal Minimum => 0;
+    public decimal Maximum => 512;
+
     public DmxDimmerChannelSetting(string label, params int[]? channels)
     {
         Label = label;
@@ -159,6 +171,10 @@ public class DmxDimmerValueSetting : ReactiveObject, IDmxChannelSetting
     {
         _dmxTalker = talker;
     }
+
+    // DMX levels are 8-bit
+    public decimal Minimum => 0;
+    public decimal Maximum => 255;
 
     public DmxDimmerValueSetting(string label, params int[]? channels)
     {

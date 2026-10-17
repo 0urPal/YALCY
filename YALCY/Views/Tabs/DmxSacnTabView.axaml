@@ -154,7 +154,7 @@
                                    FontWeight="Bold" 
                                    Foreground="{DynamicResource AppTextPrimary}"
                                    TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="Master fixture dimmer channels (16 channels) and default intensity levels" 
+                        <TextBlock Text="Master fixture dimmer channels (16 channels) and default intensity levels. Set value to 0 for OFF."
                                    FontSize="11" 
                                    Foreground="{DynamicResource AppTextMuted}"
                                    TextTrimming="CharacterEllipsis"/>
@@ -192,10 +192,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[0], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[1], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[2], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[3], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[0], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[1], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[2], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[3], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
 
@@ -207,10 +207,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[4], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[5], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[6], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[7], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[4], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[5], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[6], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[7], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
                                             </UniformGrid>
@@ -232,10 +232,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[8], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[9], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[10], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[11], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[8], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[9], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[10], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[11], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
 
@@ -247,10 +247,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[12], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[13], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[14], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[15], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[12], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[13], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[14], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Value="{Binding Channel[15], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
                                             </UniformGrid>
@@ -276,7 +276,7 @@
                                    FontWeight="Bold" 
                                    Foreground="{DynamicResource AppTextPrimary}"
                                    TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="Direct DMX channel assignments for fixture color groups (8 channels per color)" 
+                        <TextBlock Text="Direct DMX channel assignments for fixture color groups (8 channels per color). Set value to 0 for OFF."
                                    FontSize="11" 
                                    Foreground="{DynamicResource AppTextMuted}"
                                    TextTrimming="CharacterEllipsis"/>
@@ -314,10 +314,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[0], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[1], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[2], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[3], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[0], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[1], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[2], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[3], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
 
@@ -329,10 +329,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[4], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[5], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[6], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[7], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[4], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[5], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[6], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[7], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
                                             </UniformGrid>
@@ -358,7 +358,7 @@
                                    FontWeight="Bold" 
                                    Foreground="{DynamicResource AppTextPrimary}"
                                    TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="DMX channels for special stage atmosphere fixtures (Fog machines &amp; Strobes)" 
+                        <TextBlock Text="DMX channels for special stage atmosphere fixtures (Fog machines &amp; Strobes). Set value to 0 for OFF."
                                    FontSize="11" 
                                    Foreground="{DynamicResource AppTextMuted}"
                                    TextTrimming="CharacterEllipsis"/>
@@ -396,10 +396,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[0], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[1], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[2], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[3], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[0], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[1], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[2], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[3], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
 
@@ -411,10 +411,10 @@
                                                                 FontWeight="SemiBold" 
                                                                 Foreground="{DynamicResource AppTextSecondary}"/>
                                                     <UniformGrid Columns="4">
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[4], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[5], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[6], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
-                                                        <NumericUpDown Minimum="1" Maximum="512" Value="{Binding Channel[7], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[4], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[5], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[6], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
+                                                        <NumericUpDown Minimum="0" Maximum="512" Value="{Binding Channel[7], Mode=TwoWay}" Margin="2" Padding="6,2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F0" Background="{DynamicResource AppInputBackground}" BorderBrush="{DynamicResource AppBorder}" />
                                                     </UniformGrid>
                                                 </StackPanel>
                                             </UniformGrid>
@@ -440,7 +440,7 @@
                                    FontWeight="Bold" 
                                    Foreground="{DynamicResource AppTextPrimary}"
                                    TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="Dedicated DMX channels triggered by instrument note events during gameplay" 
+                        <TextBlock Text="Dedicated DMX channels triggered by instrument note events during gameplay. Set value to 0 for OFF."
                                    FontSize="11" 
                                    Foreground="{DynamicResource AppTextMuted}"
                                    TextTrimming="CharacterEllipsis"/>
@@ -467,7 +467,7 @@
                                                    Foreground="{DynamicResource AppTextPrimary}"
                                                    TextTrimming="CharacterEllipsis"
                                                    ToolTip.Tip="{Binding Label}"/>
-                                        <NumericUpDown Minimum="1" Maximum="512"
+                                        <NumericUpDown Minimum="0" Maximum="512"
                                                        Value="{Binding Value, Mode=TwoWay}"
                                                        HorizontalAlignment="Stretch"
                                                        Padding="6,2"
@@ -497,7 +497,7 @@
                                    FontWeight="Bold" 
                                    Foreground="{DynamicResource AppTextPrimary}"
                                    TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="DMX channels for BPM synchronization, cue changes, beatlines, spotlights, singalongs, and venue scenes" 
+                        <TextBlock Text="DMX channels for BPM synchronization, cue changes, beatlines, spotlights, singalongs, and venue scenes. Set value to 0 for OFF."
                                    FontSize="11" 
                                    Foreground="{DynamicResource AppTextMuted}"
                                    TextTrimming="CharacterEllipsis"/>
@@ -524,7 +524,7 @@
                                                    Foreground="{DynamicResource AppTextPrimary}"
                                                    TextTrimming="CharacterEllipsis"
                                                    ToolTip.Tip="{Binding Label}"/>
-                                        <NumericUpDown Minimum="1" Maximum="512"
+                                        <NumericUpDown Minimum="0" Maximum="512"
                                                        Value="{Binding Value, Mode=TwoWay}"
                                                        HorizontalAlignment="Stretch"
                                                        Padding="6,2"
