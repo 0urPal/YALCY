@@ -188,6 +188,43 @@ internal static class SettingsManager
     public static IReadOnlyList<HomeAssistantAssignmentSetting> HomeAssistantAssignments { get; private set; } =
         Array.Empty<HomeAssistantAssignmentSetting>();
 
+    // Starting point for loading a settings file: every DMX channel off. Empty arrays are padded
+    // to their slot counts after loading, giving address 0 and dimmer value 255.
+    private static void ClearDmxChannels()
+    {
+        BpmChannelSettingValue = 0;
+        CueChangeChannelSettingValue = 0;
+        BeatLineChannelSettingValue = 0;
+        BonusEffectChannelSettingValue = 0;
+        KeyFrameChannelSettingValue = 0;
+        DrumNoteChannelSettingValue = 0;
+        PostProcessingChannelSettingValue = 0;
+        GuitarNoteChannelSettingValue = 0;
+        BassNoteChannelSettingValue = 0;
+        CurrentSpotlightSettingValue = 0;
+        CurrentSingalongSettingValue = 0;
+        KeysNoteChannelSettingValue = 0;
+        VocalsNoteChannelSettingValue = 0;
+        Harmony0NoteChannelSettingValue = 0;
+        Harmony1NoteChannelSettingValue = 0;
+        Harmony2NoteChannelSettingValue = 0;
+        CurrentSceneSettingValue = 0;
+        VenueSizeSettingValue = 0;
+        PauseStateSettingValue = 0;
+        SongSectionSettingValue = 0;
+        // 0 isn't a valid universe
+        BroadcastUniverseSettingValue = DmxDefaults.BroadcastUniverse;
+
+        MasterDimmerSettingsChannel = [];
+        MasterDimmerValuesChannel = [];
+        FogChannelsChannel = [];
+        StrobeChannelsChannel = [];
+        RedChannelsChannel = [];
+        BlueChannelsChannel = [];
+        YellowChannelsChannel = [];
+        GreenChannelsChannel = [];
+    }
+
     public static void ResetDmxChannelsToDefaults()
     {
         BpmChannelSettingValue = DmxDefaults.BpmChannel;
@@ -342,9 +379,9 @@ internal static class SettingsManager
 
             if (container == null) return;
 
-            // Start from defaults so anything missing from an older settings file keeps its
-            // default instead of loading as 0. Values saved in the file still win, including 0.
-            ResetDmxChannelsToDefaults();
+            // Anything missing from an older settings file stays off (0) rather than taking its
+            // default address, which could collide with the user's own channels.
+            ClearDmxChannels();
 
             foreach (var enable in container.CurrentEnableSettings ?? new List<EnableSetting>())
             {
