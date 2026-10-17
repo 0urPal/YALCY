@@ -64,6 +64,8 @@ internal static class SettingsManager
 
     public const ushort DefaultUdpListenPort = 36107;
     public const int DefaultYargPacketTimeoutSeconds = 5;
+    public const ushort DefaultOpenRgbServerPort = 6742;
+    public const string DefaultOpenRgbServerIp = "127.0.0.1";
 
     private static readonly string SettingsDirectory =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YALCY", "Settings");
@@ -83,11 +85,11 @@ internal static class SettingsManager
             new DmxDimmerValueSetting("Master Dimmer Values", DmxDefaults.MasterDimmerValues()),
         HueAuthResult = new RegisterEntertainmentResult(),
         HueBridgeIP = "",
-        UdpListenPort = 0,
+        UdpListenPort = DefaultUdpListenPort,
         FogDurationPercent = 100,
         YargPacketTimeoutSeconds = DefaultYargPacketTimeoutSeconds,
-        OpenRgbServerPort = 0,
-        OpenRgbServerIp = "",
+        OpenRgbServerPort = DefaultOpenRgbServerPort,
+        OpenRgbServerIp = DefaultOpenRgbServerIp,
         SacnAdapterIp = "",
         HomeAssistantUrl = "http://homeassistant.local:8123",
         HomeAssistantAccessToken = "",
@@ -340,7 +342,11 @@ internal static class SettingsManager
 
             if (container == null) return;
 
-            foreach (var enable in container.CurrentEnableSettings)
+            // Start from defaults so anything missing from an older settings file keeps its
+            // default instead of loading as 0. Values saved in the file still win, including 0.
+            ResetDmxChannelsToDefaults();
+
+            foreach (var enable in container.CurrentEnableSettings ?? new List<EnableSetting>())
             {
                 switch (enable.Label)
                 {
@@ -387,7 +393,7 @@ internal static class SettingsManager
             }
 
             //These might need to be constructed like the above, but this seems to work for now.
-            foreach (var single in container.CurrentSingleSettings)
+            foreach (var single in container.CurrentSingleSettings ?? new List<DmxSingleSetting>())
             {
                 switch (single.Label)
                 {
@@ -477,45 +483,46 @@ internal static class SettingsManager
                 }
             }
 
-            foreach (var channel in container.CurrentChannelSettings)
+            foreach (var channel in container.CurrentChannelSettings ?? new List<DmxChannelSetting>())
             {
                 switch (channel.Label)
                 {
                     case "Fog Channels":
-                        FogChannelsChannel = channel.Channel;
+                        FogChannelsChannel = channel.Channel ?? FogChannelsChannel;
                         break;
 
                     case "Strobe Channels":
-                        StrobeChannelsChannel = channel.Channel;
+                        StrobeChannelsChannel = channel.Channel ?? StrobeChannelsChannel;
                         break;
 
                     case "Red Channels":
-                        RedChannelsChannel = channel.Channel;
+                        RedChannelsChannel = channel.Channel ?? RedChannelsChannel;
                         break;
 
                     case "Blue Channels":
-                        BlueChannelsChannel = channel.Channel;
+                        BlueChannelsChannel = channel.Channel ?? BlueChannelsChannel;
                         break;
 
                     case "Yellow Channels":
-                        YellowChannelsChannel = channel.Channel;
+                        YellowChannelsChannel = channel.Channel ?? YellowChannelsChannel;
                         break;
 
                     case "Green Channels":
-                        GreenChannelsChannel = channel.Channel;
+                        GreenChannelsChannel = channel.Channel ?? GreenChannelsChannel;
                         break;
                 }
             }
 
-            MasterDimmerValuesChannel = container.CurrentMasterDimmerValueChannelSettings.Channel;
-            MasterDimmerSettingsChannel = container.CurrentMasterDimmerChannelSettings.Channel;
+            MasterDimmerValuesChannel = container.CurrentMasterDimmerValueChannelSettings?.Channel ?? MasterDimmerValuesChannel;
+            MasterDimmerSettingsChannel = container.CurrentMasterDimmerChannelSettings?.Channel ?? MasterDimmerSettingsChannel;
 
             HueAuthResultUsername = container.HueAuthResult.Username;
             HueAuthResultStreamingClientKey = container.HueAuthResult.StreamingClientKey;
             HueAuthResultIp = container.HueAuthResult.Ip;
             HueBridgeIp = container.HueBridgeIP;
 
-            UdpListenPort = container.UdpListenPort;
+            // Port 0 is never valid here; it means the entry was missing from the file
+            UdpListenPort = container.UdpListenPort == 0 ? DefaultUdpListenPort : container.UdpListenPort;
             FogDurationPercent = Math.Clamp(container.FogDurationPercent ?? 100, 0, 100);
             YargPacketTimeoutSeconds = Math.Clamp(
                 container.YargPacketTimeoutSeconds ?? DefaultYargPacketTimeoutSeconds,
@@ -539,8 +546,10 @@ internal static class SettingsManager
                 })
                 .ToList();
 
-            OpenRgbServerIp = container.OpenRgbServerIp;
-            OpenRgbServerPort = container.OpenRgbServerPort;
+            OpenRgbServerIp = string.IsNullOrWhiteSpace(container.OpenRgbServerIp)
+                ? DefaultOpenRgbServerIp
+                : container.OpenRgbServerIp;
+            OpenRgbServerPort = container.OpenRgbServerPort == 0 ? DefaultOpenRgbServerPort : container.OpenRgbServerPort;
             SacnAdapterIp = container.SacnAdapterIp;
             HomeAssistantUrl = string.IsNullOrWhiteSpace(container.HomeAssistantUrl)
                 ? "http://homeassistant.local:8123"
@@ -596,8 +605,8 @@ internal static class SettingsManager
             LifxZoneAssignments = Array.Empty<LifxZoneAssignmentSetting>();
             HomeAssistantAssignments = Array.Empty<HomeAssistantAssignmentSetting>();
 
-            OpenRgbServerIp = "127.0.0.1";
-            OpenRgbServerPort = 6742;
+            OpenRgbServerIp = DefaultOpenRgbServerIp;
+            OpenRgbServerPort = DefaultOpenRgbServerPort;
             SacnAdapterIp = "";
             HomeAssistantUrl = "http://homeassistant.local:8123";
             HomeAssistantAccessToken = "";
