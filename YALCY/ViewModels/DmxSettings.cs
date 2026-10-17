@@ -111,15 +111,8 @@ public class DmxDimmerChannelSetting : ReactiveObject, IDmxChannelSetting
             this.RaiseAndSetIfChanged(ref _channel, value);
             this.RaisePropertyChanged("Item");
             this.RaisePropertyChanged("Item[]");
-            // Set previous channel value to 0 and update master dimmers
-            if (_dmxTalker != null && _channel != null)
-            {
-                foreach (var t in _channel)
-                {
-                    _dmxTalker.SetChannelToValue(t, 0);
-                }
-                _dmxTalker.UpdateMasterDimmers();
-            }
+            // DmxTalker zeroes the previous addresses on its next frame
+            _dmxTalker?.UpdateMasterDimmers();
         }
     }
 

@@ -31,6 +31,10 @@ public class DmxTalker
     private SACNClient? _sendClient;
 
     private readonly byte[] _currentDataPacket = new byte[UniverseSize];
+
+    // Addresses owned by a current setting. Anything else is zeroed each frame so a channel
+    // that has been moved doesn't leave its old address stuck at its last value.
+    private readonly bool[] _assignedChannels = new bool[UniverseSize];
     private readonly ManualStrobeFlasher _manualStrobeFlasher = new(ex => AppLog.Write(LogLevel.Error, "DMX", $"DMX manual strobe error: {ex.Message}"));
 
     private Timer? _timer;
@@ -368,8 +372,10 @@ public class DmxTalker
             }
             else
             {
+                Array.Clear(_assignedChannels, 0, _assignedChannels.Length);
                 UpdateMasterDimmers();
                 UpdateStateChannels(_mainViewModel);
+                ClearUnassignedChannels(_mainViewModel);
             }
 
             // Sacn spec says multicast is the correct default way to go but singlecast can be used if needed.
@@ -419,17 +425,52 @@ public class DmxTalker
     public void UpdateMasterDimmers()
     {
         if (_mainViewModel == null) return;
-        if (_mainViewModel.MasterDimmerSettings.Channel == null || _mainViewModel.MasterDimmerValues.Channel == null) return;
-        for (int i = 0; i < _mainViewModel.MasterDimmerSettings.Channel.Length; i++)
+        var channels = _mainViewModel.MasterDimmerSettings.Channel;
+        var values = _mainViewModel.MasterDimmerValues.Channel;
+        if (channels == null || values == null) return;
+
+        // Also called from the settings UI, so take the lock to avoid racing a send
+        lock (_sendLock)
         {
-            SetChannelToValue(_mainViewModel.MasterDimmerSettings.Channel[i],
-                (byte)_mainViewModel.MasterDimmerValues.Channel[i]);
+            for (int i = 0; i < channels.Length && i < values.Length; i++)
+            {
+                SetChannelIfValid(channels[i], (byte)values[i]);
+            }
         }
     }
 
-    public void SetChannelToValue(int dmxChannel, byte value)
+    private void SetChannelToValue(int dmxChannel, byte value)
     {
         _currentDataPacket[dmxChannel - 1] = value;
+    }
+
+    private void ClearUnassignedChannels(MainWindowViewModel viewModel)
+    {
+        // These groups are only written on lighting events, so claim their addresses here
+        MarkAssigned(viewModel.RedChannels);
+        MarkAssigned(viewModel.BlueChannels);
+        MarkAssigned(viewModel.YellowChannels);
+        MarkAssigned(viewModel.GreenChannels);
+        MarkAssigned(viewModel.FogChannels);
+        MarkAssigned(viewModel.StrobeChannels);
+
+        for (int i = 0; i < UniverseSize; i++)
+        {
+            if (!_assignedChannels[i])
+                _currentDataPacket[i] = 0;
+        }
+    }
+
+    private void MarkAssigned(DmxChannelSetting group)
+    {
+        if (group.Channel == null) return;
+
+        for (int i = 0; i < 8 && i < group.Channel.Length; i++)
+        {
+            int ch = group.Channel[i];
+            if (ch > 0 && ch <= UniverseSize)
+                _assignedChannels[ch - 1] = true;
+        }
     }
 
     private void UpdateStateChannels(MainWindowViewModel viewModel)
@@ -460,6 +501,7 @@ public class DmxTalker
     {
         if (dmxChannel <= 0 || dmxChannel > UniverseSize) return;
         _currentDataPacket[dmxChannel - 1] = value;
+        _assignedChannels[dmxChannel - 1] = true;
     }
 
     private void UpdateDataPacket(byte[] udpBuffer, MainWindowViewModel viewModel)

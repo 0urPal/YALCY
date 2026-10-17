@@ -2,6 +2,8 @@ namespace YALCY;
 
 // Single source of truth for default DMX channel assignments.
 // Fixtures follow a 7-channel layout (dimmer, red, blue, yellow, green, fog, strobe).
+// Fixtures 1-8 use 1-56 and the state channels use 57-76, so fixtures 9-16 resume the
+// 7-channel sequence at 78 to stay clear of them.
 internal static class DmxDefaults
 {
     public const int BpmChannel = 57;
@@ -27,7 +29,7 @@ internal static class DmxDefaults
     public const int BroadcastUniverse = 1;
 
     // Arrays are returned as fresh copies because the UI edits them in place.
-    public static int[] MasterDimmerChannels() => new[] { 1, 8, 15, 22, 29, 36, 43, 50, 57, 64, 71, 78, 85, 92, 99, 106 };
+    public static int[] MasterDimmerChannels() => new[] { 1, 8, 15, 22, 29, 36, 43, 50, 78, 85, 92, 99, 106, 113, 120, 127 };
     public static int[] MasterDimmerValues() => new[] { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
     public static int[] RedChannels() => new[] { 2, 9, 16, 23, 30, 37, 44, 51 };
     public static int[] BlueChannels() => new[] { 3, 10, 17, 24, 31, 38, 45, 52 };
