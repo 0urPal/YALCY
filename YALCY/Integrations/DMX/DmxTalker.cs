@@ -237,7 +237,7 @@ public class DmxTalker
 
             lock (_sendLock)
             {
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 8 && i < group.Channel.Length; i++)
                 {
                     int ch = group.Channel[i];
                     if (ch > 0)

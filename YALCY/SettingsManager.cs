@@ -516,6 +516,21 @@ internal static class SettingsManager
             MasterDimmerValuesChannel = container.CurrentMasterDimmerValueChannelSettings?.Channel ?? MasterDimmerValuesChannel;
             MasterDimmerSettingsChannel = container.CurrentMasterDimmerChannelSettings?.Channel ?? MasterDimmerSettingsChannel;
 
+            // Older files can hold fewer slots than the UI shows (8 dimmers before 16 were added).
+            // Pad missing slots so they're editable: address 0 is off, so a padded slot sends nothing
+            // until it's given an address. Dimmer values above 255 used to wrap, so clamp them.
+            MasterDimmerSettingsChannel = PadTo(MasterDimmerSettingsChannel!, DmxDefaults.MasterDimmerSlots, 0);
+            MasterDimmerValuesChannel = PadTo(
+                MasterDimmerValuesChannel!.Select(value => Math.Clamp(value, 0, 255)).ToArray(),
+                DmxDefaults.MasterDimmerSlots,
+                255);
+            RedChannelsChannel = PadTo(RedChannelsChannel!, DmxDefaults.GroupSlots, 0);
+            BlueChannelsChannel = PadTo(BlueChannelsChannel!, DmxDefaults.GroupSlots, 0);
+            YellowChannelsChannel = PadTo(YellowChannelsChannel!, DmxDefaults.GroupSlots, 0);
+            GreenChannelsChannel = PadTo(GreenChannelsChannel!, DmxDefaults.GroupSlots, 0);
+            FogChannelsChannel = PadTo(FogChannelsChannel!, DmxDefaults.GroupSlots, 0);
+            StrobeChannelsChannel = PadTo(StrobeChannelsChannel!, DmxDefaults.GroupSlots, 0);
+
             HueAuthResultUsername = container.HueAuthResult.Username;
             HueAuthResultStreamingClientKey = container.HueAuthResult.StreamingClientKey;
             HueAuthResultIp = container.HueAuthResult.Ip;
@@ -626,6 +641,16 @@ internal static class SettingsManager
             CloseToTrayOnClose = false;
             ThemeVariant = SystemThemeVariant;
         }
+    }
+
+    private static int[] PadTo(int[] values, int length, int fill)
+    {
+        if (values.Length >= length) return values;
+
+        var padded = new int[length];
+        Array.Copy(values, padded, values.Length);
+        Array.Fill(padded, fill, values.Length, length - values.Length);
+        return padded;
     }
 
     private static bool IsJsonFileValid(string filePath)

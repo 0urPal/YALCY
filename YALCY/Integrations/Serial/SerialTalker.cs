@@ -100,47 +100,19 @@ public class SerialTalker: IDisposable
             switch (commandId)
             {
                 case StageKitTalker.CommandId.BlueLeds:
-                    for (int i = 0; i < 8; i++)
-                    {
-                        if (_mainViewModel.BlueChannels.Channel != null)
-                        {
-                            controller.SetChannel(_mainViewModel.BlueChannels.Channel[i], (byte)((parameter & (1 << i)) != 0 ? 255 : 0));
-                        }
-                    }
-
+                    SetLeds(_mainViewModel.BlueChannels.Channel, parameter);
                     break;
 
                 case StageKitTalker.CommandId.GreenLeds:
-                    for (int i = 0; i < 8; i++)
-                    {
-                        if (_mainViewModel.GreenChannels.Channel != null)
-                        {
-                            controller.SetChannel(_mainViewModel.GreenChannels.Channel[i], (byte)((parameter & (1 << i)) != 0 ? 255 : 0));
-                        }
-                    }
-
+                    SetLeds(_mainViewModel.GreenChannels.Channel, parameter);
                     break;
 
                 case StageKitTalker.CommandId.YellowLeds:
-                    for (int i = 0; i < 8; i++)
-                    {
-                        if (_mainViewModel.YellowChannels.Channel != null)
-                        {
-                            controller.SetChannel(_mainViewModel.YellowChannels.Channel[i], (byte)((parameter & (1 << i)) != 0 ? 255 : 0));
-                        }
-                    }
-
+                    SetLeds(_mainViewModel.YellowChannels.Channel, parameter);
                     break;
 
                 case StageKitTalker.CommandId.RedLeds:
-                    for (int i = 0; i < 8; i++)
-                    {
-                        if (_mainViewModel.RedChannels.Channel != null)
-                        {
-                            controller.SetChannel(_mainViewModel.RedChannels.Channel[i], (byte)((parameter & (1 << i)) != 0 ? 255 : 0));
-                        }
-                    }
-
+                    SetLeds(_mainViewModel.RedChannels.Channel, parameter);
                     break;
 
                 case StageKitTalker.CommandId.FogOn:
@@ -218,12 +190,26 @@ public class SerialTalker: IDisposable
 
         for (int i = 0; i < channels.Length; i++)
         {
-            var channel = channels[i];
-            if (channel > 0)
-            {
-                controller.SetChannel(channel, value);
-            }
+            SetChannelIfValid(channels[i], value);
         }
+    }
+
+    // Set LED pattern based on parameter bitmask
+    private void SetLeds(int[]? channels, byte parameter)
+    {
+        if (channels == null) return;
+
+        for (int i = 0; i < 8 && i < channels.Length; i++)
+        {
+            SetChannelIfValid(channels[i], (parameter & (1 << i)) != 0 ? (byte)255 : (byte)0);
+        }
+    }
+
+    // Address 0 means the channel is turned off; the controller throws on anything outside 1-512
+    private void SetChannelIfValid(int channel, byte value)
+    {
+        if (channel < 1 || channel > 512) return;
+        controller.SetChannel(channel, value);
     }
 
     private void ClearAllOutputChannels()
@@ -262,30 +248,35 @@ public class SerialTalker: IDisposable
             return;
         }
 
-        controller.SetChannel(_mainViewModel.GuitarNoteChannelSetting.Value, udpIntake.CurrentGuitarNotes.Value);
-        controller.SetChannel(_mainViewModel.BassNoteChannelSetting.Value, udpIntake.CurrentBassNotes.Value);
-        controller.SetChannel(_mainViewModel.DrumNoteChannelSetting.Value, udpIntake.CurrentDrumNotes.Value);
-        controller.SetChannel(_mainViewModel.VocalsNoteChannelSetting.Value, (byte)udpIntake.CurrentVocalNote.Value);
-        controller.SetChannel(_mainViewModel.Harmony0NoteChannelSetting.Value, (byte)udpIntake.CurrentHarmony0Note.Value);
-        controller.SetChannel(_mainViewModel.Harmony1NoteChannelSetting.Value, (byte)udpIntake.CurrentHarmony1Note.Value);
-        controller.SetChannel(_mainViewModel.Harmony2NoteChannelSetting.Value, (byte)udpIntake.CurrentHarmony2Note.Value);
+        SetChannelIfValid(_mainViewModel.GuitarNoteChannelSetting.Value, udpIntake.CurrentGuitarNotes.Value);
+        SetChannelIfValid(_mainViewModel.BassNoteChannelSetting.Value, udpIntake.CurrentBassNotes.Value);
+        SetChannelIfValid(_mainViewModel.DrumNoteChannelSetting.Value, udpIntake.CurrentDrumNotes.Value);
+        SetChannelIfValid(_mainViewModel.VocalsNoteChannelSetting.Value, (byte)udpIntake.CurrentVocalNote.Value);
+        SetChannelIfValid(_mainViewModel.Harmony0NoteChannelSetting.Value, (byte)udpIntake.CurrentHarmony0Note.Value);
+        SetChannelIfValid(_mainViewModel.Harmony1NoteChannelSetting.Value, (byte)udpIntake.CurrentHarmony1Note.Value);
+        SetChannelIfValid(_mainViewModel.Harmony2NoteChannelSetting.Value, (byte)udpIntake.CurrentHarmony2Note.Value);
 
-        controller.SetChannel(_mainViewModel.BpmChannelSetting.Value, (byte)Udp.UdpIntake.BeatsPerMinute.Value);
-        controller.SetChannel(_mainViewModel.KeyFrameChannelSetting.Value, udpIntake.Keyframe.Value);
-        controller.SetChannel(_mainViewModel.VenueSizeSetting.Value, Udp.UdpIntake.Venue.Value);
-        controller.SetChannel(_mainViewModel.CueChangeChannelSetting.Value, udpIntake.LightingCue.Value);
-        controller.SetChannel(_mainViewModel.PostProcessingChannelSetting.Value, udpIntake.PostProcessing.Value);
-        controller.SetChannel(_mainViewModel.PauseStateSetting.Value, udpIntake.Paused.Value);
-        controller.SetChannel(_mainViewModel.BeatLineChannelSetting.Value, udpIntake.Beat.Value);
-        controller.SetChannel(_mainViewModel.CurrentSingalongSetting.Value, udpIntake.Singalong.Value);
-        controller.SetChannel(_mainViewModel.CurrentSpotlightSetting.Value, udpIntake.Spotlight.Value);
-        controller.SetChannel(_mainViewModel.SongSectionSetting.Value, udpIntake.CurrentSongSection.Value);
-        controller.SetChannel(_mainViewModel.BonusEffectChannelSetting.Value, (byte)(udpIntake.BonusEffect.Value ? 255 : 0));
-        controller.SetChannel(_mainViewModel.CurrentSceneSetting.Value, udpIntake.CurrentScene.Value);
+        SetChannelIfValid(_mainViewModel.BpmChannelSetting.Value, (byte)Udp.UdpIntake.BeatsPerMinute.Value);
+        SetChannelIfValid(_mainViewModel.KeyFrameChannelSetting.Value, udpIntake.Keyframe.Value);
+        SetChannelIfValid(_mainViewModel.VenueSizeSetting.Value, Udp.UdpIntake.Venue.Value);
+        SetChannelIfValid(_mainViewModel.CueChangeChannelSetting.Value, udpIntake.LightingCue.Value);
+        SetChannelIfValid(_mainViewModel.PostProcessingChannelSetting.Value, udpIntake.PostProcessing.Value);
+        SetChannelIfValid(_mainViewModel.PauseStateSetting.Value, udpIntake.Paused.Value);
+        SetChannelIfValid(_mainViewModel.BeatLineChannelSetting.Value, udpIntake.Beat.Value);
+        SetChannelIfValid(_mainViewModel.CurrentSingalongSetting.Value, udpIntake.Singalong.Value);
+        SetChannelIfValid(_mainViewModel.CurrentSpotlightSetting.Value, udpIntake.Spotlight.Value);
+        SetChannelIfValid(_mainViewModel.SongSectionSetting.Value, udpIntake.CurrentSongSection.Value);
+        SetChannelIfValid(_mainViewModel.BonusEffectChannelSetting.Value, (byte)(udpIntake.BonusEffect.Value ? 255 : 0));
+        SetChannelIfValid(_mainViewModel.CurrentSceneSetting.Value, udpIntake.CurrentScene.Value);
 
-        for (int i = 0; i < 8; i++)
+        var dimmerChannels = _mainViewModel.MasterDimmerSettings.Channel;
+        var dimmerValues = _mainViewModel.MasterDimmerValues.Channel;
+        if (dimmerChannels != null && dimmerValues != null)
         {
-            controller.SetChannel(_mainViewModel.MasterDimmerSettings.Channel[i], (byte)_mainViewModel.MasterDimmerValues.Channel[i]);
+            for (int i = 0; i < 8 && i < dimmerChannels.Length && i < dimmerValues.Length; i++)
+            {
+                SetChannelIfValid(dimmerChannels[i], (byte)dimmerValues[i]);
+            }
         }
 
         controller.WriteSafe();

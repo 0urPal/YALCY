@@ -28,6 +28,10 @@ internal static class DmxDefaults
     public const int SongSectionChannel = 76;
     public const int BroadcastUniverse = 1;
 
+    // Slot counts the DMX tab shows; shorter saved arrays are padded to these on load
+    public const int MasterDimmerSlots = 16;
+    public const int GroupSlots = 8;
+
     // Arrays are returned as fresh copies because the UI edits them in place.
     public static int[] MasterDimmerChannels() => new[] { 1, 8, 15, 22, 29, 36, 43, 50, 78, 85, 92, 99, 106, 113, 120, 127 };
     public static int[] MasterDimmerValues() => new[] { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
